@@ -12,6 +12,10 @@
     "build": "cross-env NODE_ENV=production webpack"
   },
   "dependencies": {
+    "@emotion/babel-plugin": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@loadable/component": "^5.15.3",
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "axios": "^1.4.0",
@@ -29,6 +33,7 @@
     "@babel/preset-typescript": "^7.22.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
+    "@types/loadable__component": "^5.13.4",
     "@types/node": "^20.3.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/webpack": "^5.28.1",

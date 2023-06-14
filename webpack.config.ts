@@ -48,7 +48,10 @@ const config: Configuration = {
           ],
           env: {
             development: {
-              plugins: [require.resolve('react-refresh/babel')],
+              plugins: [['@emotion', { sourceMap: true }], require.resolve('react-refresh/babel')],
+            },
+            production: {
+              plugins: ['@emotion'],
             },
           },
         },
@@ -79,6 +82,12 @@ const config: Configuration = {
     port: 3090,
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
+    proxy: {  // fe be 같은서버가 아니면 사용하기 힘듬
+      '/api/': {
+        target: 'http://localhost:3095',
+        changeOrigin: true,
+      }
+    }
   },
 };
 
