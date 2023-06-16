@@ -1,14 +1,18 @@
-import useInput from '@hooks/useInput';
-import { Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
-import fetcher from '@utils/fetcher';
-import axios from 'axios';
 import React, { useCallback, useState } from 'react';
+import axios from 'axios';
 import { Link, Navigate } from 'react-router-dom';
-// import useSWR from 'swr';
-import useSWRMutation from 'swr/mutation'
+// import useSWRMutation from 'swr/mutation'
+import useSWR from 'swr';
+
+import { Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
+
+import swrUsers from '@components/swr/users';
+import useInput from '@hooks/useInput';
+
 
 const LogIn = () => {
-  const { data, error, trigger } = useSWRMutation('/api/users', fetcher);
+  // const { data, error, trigger } = useSWRMutation('/api/users', fetcher);
+  const { data, mutate } = swrUsers();
 
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
@@ -26,7 +30,8 @@ const LogIn = () => {
           },
         )
         .then((response) => {
-          trigger();
+          // trigger(response.data, { revalidate : false });
+          mutate(response.data);
         })
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
@@ -35,12 +40,13 @@ const LogIn = () => {
     [email, password],
   );
 
-  if (typeof data === undefined) {
-    return <div>로딩중...</div>;
+  if (data === undefined) {
+    return <div> </div>;
   }
 
   if (data) {
-    return <Navigate replace to="/workspace/sleact/channel/일반" />;
+    // return <Navigate replace to="/workspace/sleact/channel/일반" />;
+    return <Navigate replace to="/workspace/channel/" />;
   }
 
   // console.log(error, userData);

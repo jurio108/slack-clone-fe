@@ -6,8 +6,8 @@ const fetcher = (url: string) =>
       withCredentials: true,
     })
     .then((response) => {
-      console.log(response);
-      response.data
+      console.log('fetcher response ==>', response);
+      return response.data;
     });
 
 export default fetcher;

@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 // import axios from 'axios';
 
-import App from './layouts/App';
+import App from '@layouts/App';
 
 const container = document.getElementById('app');
 const root = createRoot(container!);

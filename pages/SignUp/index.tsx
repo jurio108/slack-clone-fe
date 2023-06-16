@@ -1,15 +1,17 @@
 import React, { useState, useCallback } from "react";
-import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from './styles';
-import { Link, Route, Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
+// import useSWRImmutable from 'swr/immutable';
+
+import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from './styles';
+
 import useInput from "@hooks/useInput";
-import fetcher from '@utils/fetcher';
+import swrUsers from '@components/swr/users';
 
 const SignUp = () => {
-  //const { data, error } = useSWR('/api/users', fetcher, { refreshInterval: 6000 });
-  const { data, error } = useSWRImmutable('/api/users', fetcher);
+  // const { data, error } = useSWRImmutable('/api/users', fetcher);
+  const { data, mutate } = swrUsers();
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -65,12 +67,13 @@ const SignUp = () => {
     [email, nickname, password, passwordCheck, mismatchError],
   );
 
-  if (typeof data === undefined) {
-    return <div>로딩중...</div>;
+  if (data === undefined) {
+    return <div> </div>;
   }
 
   if (data) {
-    return <Navigate replace to="/workspace/sleact/channel/일반" />;
+    // return <Navigate replace to="/workspace/sleact/channel/일반" />;
+    return <Navigate replace to="/workspace/channel/" />;
   }
 
   return (
