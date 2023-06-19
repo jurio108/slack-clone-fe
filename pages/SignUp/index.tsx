@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from './styles';
 
 import useInput from "@hooks/useInput";
-import swrUsers from '@components/swr/users';
+import swrUsers from '@components/Swr/users';
 
 const SignUp = () => {
   // const { data, error } = useSWRImmutable('/api/users', fetcher);

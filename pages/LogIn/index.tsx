@@ -6,9 +6,8 @@ import useSWR from 'swr';
 
 import { Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
 
-import swrUsers from '@components/swr/users';
+import swrUsers from '@components/Swr/users';
 import useInput from '@hooks/useInput';
-
 
 const LogIn = () => {
   // const { data, error, trigger } = useSWRMutation('/api/users', fetcher);
@@ -45,8 +44,7 @@ const LogIn = () => {
   }
 
   if (data) {
-    // return <Navigate replace to="/workspace/sleact/channel/일반" />;
-    return <Navigate replace to="/workspace/channel/" />;
+    return <Navigate replace to="/workspace/sleact/channel/일반" />;
   }
 
   // console.log(error, userData);
