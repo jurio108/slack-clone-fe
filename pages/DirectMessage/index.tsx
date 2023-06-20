@@ -7,14 +7,14 @@
 // import fetcher from '@utils/fetcher';
 // import makeSection from '@utils/makeSection';
 // import axios from 'axios';
-// import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 // import gravatar from 'gravatar';
 // import Scrollbars from 'react-custom-scrollbars';
-// import { useParams } from 'react-router';
+import { useParams } from 'react-router';
 // import useSWR, { useSWRInfinite } from 'swr';
 
 const DirectMessage = () => {
-  // const { workspace, id } = useParams<{ workspace: string; id: string }>();
+  const { workspace, id } = useParams<{ workspace: string; id: string }>();
   // const { data: userData } = useSWR(`/api/workspaces/${workspace}/users/${id}`, fetcher);
   // const { data: myData } = useSWR('/api/users', fetcher);
   // const [chat, onChangeChat, setChat] = useInput('');
@@ -153,7 +153,7 @@ const DirectMessage = () => {
   //     {dragOver && <DragOver>업로드!</DragOver>}
   //   </Container>
   // );
-  return 'Direct Message';
+  return <div>Direct Message {id}</div>;
 };
 
 export default DirectMessage;

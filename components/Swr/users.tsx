@@ -2,7 +2,7 @@ import useSWR from "swr";
 import fetcher from '@utils/fetcher';
 
 const Users = () => {
-  const { data, error, mutate } = useSWR('http://localhost:3095/api/users', fetcher, {
+  const { data, error, mutate } = useSWR('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
 

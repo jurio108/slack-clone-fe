@@ -10,11 +10,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 // import makeSection from '@utils/makeSection';
 // import axios from 'axios';
 // import Scrollbars from 'react-custom-scrollbars';
-// import { useParams } from 'react-router';
+import { useParams } from 'react-router';
 // import useSWR, { useSWRInfinite } from 'swr';
 
 const Channel = () => {
-//   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
+  const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 //   const { data: myData } = useSWR('/api/users', fetcher);
 //   const [chat, onChangeChat, setChat] = useInput('');
 //   const { data: channelData } = useSWR<IChannel>(`/api/workspaces/${workspace}/channels/${channel}`, fetcher);
@@ -177,7 +177,7 @@ const Channel = () => {
 //   const chatSections = makeSection(chatData ? chatData.flat().reverse() : []);
 
   return (
-    <div>channel</div>
+    <div>channel {channel}</div>
 //     <Container onDrop={onDrop} onDragOver={onDragOver}>
 //       <Header>
 //         <span>#{channel}</span>
