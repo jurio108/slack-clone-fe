@@ -9,7 +9,7 @@ import makeSection from '@utils/makeSection';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gravatar from 'gravatar';
-import Scrollbars from 'react-custom-scrollbars-2';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
@@ -29,39 +29,39 @@ const DirectMessage = () => {
   const scrollbarRef = useRef<Scrollbars>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  // const onSubmitForm = useCallback(
-  //   (e) => {
-  //     e.preventDefault();
-  //     console.log(chat);
-  //     if (chat?.trim() && chatData) {
-  //       const savedChat = chat;
-  //       mutateChat((prevChatData) => {
-  //         prevChatData?.[0].unshift({
-  //           id: (chatData[0][0]?.id || 0) + 1,
-  //           content: savedChat,
-  //           SenderId: myData.id,
-  //           Sender: myData,
-  //           ReceiverId: userData.id,
-  //           Receiver: userData,
-  //           createdAt: new Date(),
-  //         });
-  //         return prevChatData;
-  //       }, false).then(() => {
-  //         setChat('');
-  //         scrollbarRef.current?.scrollToBottom();
-  //       });
-  //       axios
-  //         .post(`/api/workspaces/${workspace}/dms/${id}/chats`, {
-  //           content: chat,
-  //         })
-  //         .then(() => {
-  //           mutateChat();
-  //         })
-  //         .catch(console.error);
-  //     }
-  //   },
-  //   [chat, chatData, myData, userData, workspace, id],
-  // );
+  const onSubmitForm = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      console.log(chat);
+      if (chat?.trim() && chatData) {
+        const savedChat = chat;
+        mutateChat((prevChatData) => {
+          prevChatData?.[0].unshift({
+            id: (chatData[0][0]?.id || 0) + 1,
+            content: savedChat,
+            SenderId: myData.id,
+            Sender: myData,
+            ReceiverId: userData.id,
+            Receiver: userData,
+            createdAt: new Date(),
+          });
+          return prevChatData;
+        }, false).then(() => {
+          setChat('');
+          scrollbarRef.current?.scrollToBottom();
+        });
+        axios
+          .post(`/api/workspaces/${workspace}/dms/${id}/chats`, {
+            content: chat,
+          })
+          .then(() => {
+            mutateChat();
+          })
+          .catch(console.error);
+      }
+    },
+    [chat, chatData, myData, userData, workspace, id],
+  );
 
   // const onMessage = useCallback((data: IDM) => {
   //   // id는 상대방 아이디
@@ -150,7 +150,7 @@ const DirectMessage = () => {
         <span>{userData.nickname}</span>
       </Header>
       <ChatList chatSections={chatSections} ref={scrollbarRef} setSize={setSize} isReachingEnd={isReachingEnd} />
-      {/* <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} /> */}
+      <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
       {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
   );

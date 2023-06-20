@@ -1,6 +1,6 @@
 import { ChatWrapper } from '@components/Chat/styles';
 import { IDM, IChat } from '@typings/db';
-import React, { VFC, memo, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import gravatar from 'gravatar';
 // import dayjs from 'dayjs';
 // import regexifyString from 'regexify-string';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const BACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3095' : 'https://sleact.nodebird.com';
-const Chat: VFC<Props> = ({ data }) => {
+const Chat: FC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
   const user = 'Sender' in data ? data.Sender : data.User;
 
