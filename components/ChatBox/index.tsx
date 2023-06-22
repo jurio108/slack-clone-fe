@@ -70,7 +70,8 @@ const ChatBox: FC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) =
           id="editor-chat"
           value={chat}
           onChange={onChangeChat}
-          onKeyPress={onKeydownChat}
+          // onKeyPress={onKeydownChat}          
+          onKeyDown={onKeydownChat}
           placeholder={placeholder}
           inputRef={textareaRef}
           allowSuggestionsAboveCursor

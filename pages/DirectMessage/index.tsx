@@ -19,7 +19,11 @@ const DirectMessage = () => {
   const { data: userData } = useSWR(`/api/workspaces/${workspace}/members/${id}`, fetcher);
   const { data: myData } = useSWR('/api/users', fetcher);
   const [chat, onChangeChat, setChat] = useInput('');
-  const { data: chatData, mutate: mutateChat, setSize } = useSWRInfinite<IDM[]>(
+  const {
+    data: chatData,
+    mutate: mutateChat,
+    setSize,
+  } = useSWRInfinite<IDM[]>(
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
@@ -63,27 +67,27 @@ const DirectMessage = () => {
     [chat, chatData, myData, userData, workspace, id],
   );
 
-  // const onMessage = useCallback((data: IDM) => {
-  //   // id는 상대방 아이디
-  //   if (data.SenderId === Number(id) && myData.id !== Number(id)) {
-  //     mutateChat((chatData) => {
-  //       chatData?.[0].unshift(data);
-  //       return chatData;
-  //     }, false).then(() => {
-  //       if (scrollbarRef.current) {
-  //         if (
-  //           scrollbarRef.current.getScrollHeight() <
-  //           scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
-  //         ) {
-  //           console.log('scrollToBottom!', scrollbarRef.current?.getValues());
-  //           setTimeout(() => {
-  //             scrollbarRef.current?.scrollToBottom();
-  //           }, 50);
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, []);
+  const onMessage = useCallback((data: IDM) => {
+    // id는 상대방 아이디
+    if (data.SenderId === Number(id) && myData.id !== Number(id)) {
+      mutateChat((chatData) => {
+        chatData?.[0].unshift(data);
+        return chatData;
+      }, false).then(() => {
+        if (scrollbarRef.current) {
+          if (
+            scrollbarRef.current.getScrollHeight() <
+            scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+          ) {
+            console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+            setTimeout(() => {
+              scrollbarRef.current?.scrollToBottom();
+            }, 50);
+          }
+        }
+      });
+    }
+  }, []);
 
   // useEffect(() => {
   //   socket?.on('dm', onMessage);
@@ -154,7 +158,6 @@ const DirectMessage = () => {
       {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
   );
-
 };
 
 export default DirectMessage;
