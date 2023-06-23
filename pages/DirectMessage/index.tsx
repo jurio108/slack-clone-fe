@@ -37,9 +37,10 @@ const DirectMessage = () => {
   const onSubmitForm = useCallback(
     (e: any) => {
       e.preventDefault();
-      console.log(chat);
+      // console.log(chat);
       if (chat?.trim() && chatData) {
         const savedChat = chat;
+        // optimistic UI 적용 데이터 생성
         mutateChat((prevChatData) => {
           prevChatData?.[0].unshift({
             id: (chatData[0][0]?.id || 0) + 1,
@@ -81,7 +82,7 @@ const DirectMessage = () => {
             scrollbarRef.current.getScrollHeight() <
             scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
           ) {
-            console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+            // console.log('scrollToBottom!', scrollbarRef.current?.getValues());
             setTimeout(() => {
               scrollbarRef.current?.scrollToBottom();
             }, 50);
@@ -111,7 +112,7 @@ const DirectMessage = () => {
   const onDrop = useCallback(
     (e: any) => {
       e.preventDefault();
-      console.log(e);
+      // console.log(e);
       const formData = new FormData();
       if (e.dataTransfer.items) {
         // Use DataTransferItemList interface to access the file(s)
@@ -119,14 +120,14 @@ const DirectMessage = () => {
           // If dropped items aren't files, reject them
           if (e.dataTransfer.items[i].kind === 'file') {
             const file = e.dataTransfer.items[i].getAsFile();
-            console.log('... file[' + i + '].name = ' + file.name);
+            // console.log('... file[' + i + '].name = ' + file.name);
             formData.append('image', file);
           }
         }
       } else {
         // Use DataTransfer interface to access the file(s)
         for (let i = 0; i < e.dataTransfer.files.length; i++) {
-          console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+          // console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
           formData.append('image', e.dataTransfer.files[i]);
         }
       }
@@ -140,7 +141,7 @@ const DirectMessage = () => {
 
   const onDragOver = useCallback((e: any) => {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     setDragOver(true);
   }, []);
 

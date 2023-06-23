@@ -46,7 +46,7 @@ const Channel = () => {
   const onSubmitForm = useCallback(
     (e: any) => {
       e.preventDefault();
-      console.log(chat);
+      // console.log(chat);
       if (chat?.trim() && chatData && channelData) {
         const savedChat = chat;
         mutateChat((prevChatData) => {
@@ -91,7 +91,7 @@ const Channel = () => {
               scrollbarRef.current.getScrollHeight() <
               scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
             ) {
-              console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+              // console.log('scrollToBottom!', scrollbarRef.current?.getValues());
               setTimeout(() => {
                 scrollbarRef.current?.scrollToBottom();
               }, 50);
@@ -114,9 +114,9 @@ const Channel = () => {
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {
     if (chatData?.length === 1) {
-      console.log('toBottomWhenLoaded', scrollbarRef.current);
+      // console.log('toBottomWhenLoaded', scrollbarRef.current);
       setTimeout(() => {
-        console.log('scrollbar', scrollbarRef.current);
+        // console.log('scrollbar', scrollbarRef.current);
         scrollbarRef.current?.scrollToBottom();
       }, 500);
     }
@@ -146,7 +146,7 @@ const Channel = () => {
   const onDrop = useCallback(
     (e: any) => {
       e.preventDefault();
-      console.log(e);
+      // console.log(e);
       const formData = new FormData();
       if (e.dataTransfer.items) {
         // Use DataTransferItemList interface to access the file(s)
@@ -154,14 +154,14 @@ const Channel = () => {
           // If dropped items aren't files, reject them
           if (e.dataTransfer.items[i].kind === 'file') {
             const file = e.dataTransfer.items[i].getAsFile();
-            console.log(e, '.... file[' + i + '].name = ' + file.name);
+            // console.log(e, '.... file[' + i + '].name = ' + file.name);
             formData.append('image', file);
           }
         }
       } else {
         // Use DataTransfer interface to access the file(s)
         for (let i = 0; i < e.dataTransfer.files.length; i++) {
-          console.log(e, '... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+          // console.log(e, '... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
           formData.append('image', e.dataTransfer.files[i]);
         }
       }
@@ -174,7 +174,7 @@ const Channel = () => {
 
   const onDragOver = useCallback((e: any) => {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
     setDragOver(true);
   }, []);
 

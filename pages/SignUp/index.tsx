@@ -42,7 +42,7 @@ const SignUp = () => {
     (e: any) => {
       e.preventDefault();
       if (!mismatchError && nickname) {
-        console.log('서버로 회원가입하기');
+        // console.log('서버로 회원가입하기');
         setSignUpError('');
         setSignUpSuccess(false);
 
@@ -53,11 +53,11 @@ const SignUp = () => {
             password,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             setSignUpSuccess(true);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             // alert(error.response.data.data);
             setSignUpError(error.response.data.data);
           })

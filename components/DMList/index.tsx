@@ -25,7 +25,7 @@ const DMList: FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('DMList: workspace 바꼈다', workspace);
+    // console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
   }, [workspace]);
 
@@ -34,10 +34,10 @@ const DMList: FC = () => {
       setOnlineList(data);
     });
     // socket?.on('dm', onMessage);
-    console.log('socket on dm', socket?.hasListeners('dm'), socket);
+    // console.log('socket on dm', socket?.hasListeners('dm'), socket);
     return () => {
       // socket?.off('dm', onMessage);
-      console.log('socket off dm', socket?.hasListeners('dm'));
+      // console.log('socket off dm', socket?.hasListeners('dm'));
       socket?.off('onlineList');
     };
   }, [socket]);
