@@ -1,4 +1,3 @@
-// import useSocket from '@hooks/useSocket';
 import { CollapseButton } from '@components/DMList/styles';
 import useSocket from '@hooks/useSocket';
 import { IUser, IUserWithOnline } from '@typings/db';
@@ -10,11 +9,7 @@ import useSWR from 'swr';
 
 const DMList: FC = () => {
   const { workspace } = useParams<{ workspace?: string }>();
-  const {
-    data: userData,
-    error,
-    mutate,
-  } = useSWR<IUser>('/api/users', fetcher, {
+  const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: memberData } = useSWR<IUserWithOnline[]>(

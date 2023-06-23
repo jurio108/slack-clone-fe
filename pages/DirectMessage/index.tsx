@@ -27,7 +27,8 @@ const DirectMessage = () => {
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
-  // const [socket] = useSocket(workspace);
+
+  const [socket] = useSocket(workspace);
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const scrollbarRef = useRef<Scrollbars>(null);
@@ -64,6 +65,7 @@ const DirectMessage = () => {
           .catch(console.error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [chat, chatData, myData, userData, workspace, id],
   );
 
@@ -87,14 +89,15 @@ const DirectMessage = () => {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   socket?.on('dm', onMessage);
-  //   return () => {
-  //     socket?.off('dm', onMessage);
-  //   };
-  // }, [socket, onMessage]);
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
 
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {

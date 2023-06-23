@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect, FC } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import useSWRMutation from 'swr/mutation';
 import gravatar from 'gravatar';
 import { useParams } from 'react-router';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
@@ -53,15 +52,11 @@ const Workspace: FC = () => {
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
   const { workspace } = useParams<{ workspace: string }>();
-  const {
-    data: userData,
-    error,
-    mutate,
-  } = useSWR<IUser>('/api/users', fetcher, {
+  const { data: userData, mutate } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
-  const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+  // const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
   const [socket, disconnect] = useSocket(workspace);
 
   useEffect(() => {
@@ -85,6 +80,7 @@ const Workspace: FC = () => {
       .then(() => {
         mutate();
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onCloseUserProfile = useCallback((e: any) => {
@@ -127,6 +123,7 @@ const Workspace: FC = () => {
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [newWorkspace, newUrl],
   );
 

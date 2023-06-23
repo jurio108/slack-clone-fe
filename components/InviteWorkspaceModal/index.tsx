@@ -43,6 +43,7 @@ const InviteWorkspaceModal: FC<Props> = ({ show, onCloseModal, setShowInviteWork
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [workspace, newMember],
   );
 

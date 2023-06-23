@@ -11,6 +11,7 @@ interface Props {
 }
 
 const BACK_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3095' : 'https://sleact.nodebird.com';
+
 const Chat: FC<Props> = ({ data }) => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
   const user = 'Sender' in data ? data.Sender : data.User;
@@ -19,7 +20,7 @@ const Chat: FC<Props> = ({ data }) => {
     () =>
       // uploads\\서버주소
       data.content.startsWith('uploads\\') || data.content.startsWith('uploads/') ? (
-        <img src={`${BACK_URL}/${data.content}`} style={{ maxHeight: 200 }} />
+        <img src={`${BACK_URL}/${data.content}`} style={{ maxHeight: 200 }} alt={data.content} />
       ) : (
         regexifyString({
           input: data.content,
@@ -48,7 +49,7 @@ const Chat: FC<Props> = ({ data }) => {
       <div className="chat-text">
         <div className="chat-user">
           <b>{user.nickname}</b>
-          <span>{dayjs(data.createdAt).format('h:mm A')}</span>
+          <span> {dayjs(data.createdAt).format('h:mm A')}</span>
         </div>
         <p>{result}</p>
       </div>

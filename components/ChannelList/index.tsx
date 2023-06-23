@@ -10,7 +10,7 @@ import useSWR from 'swr';
 const ChannelList: FC = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   // const [socket] = useSocket(workspace);
-  const { data: userData, error, mutate } = useSWR<IUser>('/api/users', fetcher, {
+  const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
@@ -40,7 +40,7 @@ const ChannelList: FC = () => {
                 key={channel.name}
                 // activeClassName="selected"
                 to={`/workspace/${workspace}/channel/${channel.name}`}
-                className={({ isActive }) => isActive ? 'selected' : ''}
+                className={({ isActive }) => (isActive ? 'selected' : '')}
               >
                 <span># {channel.name}</span>
               </NavLink>

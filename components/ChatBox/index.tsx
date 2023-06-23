@@ -16,13 +16,13 @@ interface Props {
 }
 const ChatBox: FC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) => {
   const { workspace } = useParams<{ workspace: string }>();
-  const { data: userData, error, mutate } = useSWR<IUser | false>('/api/users', fetcher, {
+  const { data: userData } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  
+
   useEffect(() => {
     if (textareaRef.current) {
       autosize(textareaRef.current);
@@ -70,7 +70,7 @@ const ChatBox: FC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) =
           id="editor-chat"
           value={chat}
           onChange={onChangeChat}
-          // onKeyPress={onKeydownChat}          
+          // onKeyPress={onKeydownChat}
           onKeyDown={onKeydownChat}
           placeholder={placeholder}
           inputRef={textareaRef}

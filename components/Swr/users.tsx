@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 const Users = () => {
@@ -6,7 +6,7 @@ const Users = () => {
     dedupingInterval: 2000,
   });
 
-  return { data, error, mutate }
-}
+  return { data, error, mutate };
+};
 
 export default Users;

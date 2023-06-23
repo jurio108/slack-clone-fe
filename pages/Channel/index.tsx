@@ -3,7 +3,7 @@ import ChatBox from '@components/ChatBox';
 import ChatList from '@components/ChatList';
 import InviteChannelModal from '@components/InviteChannelModal';
 import useInput from '@hooks/useInput';
-// import useSocket from '@hooks/useSocket';
+import useSocket from '@hooks/useSocket';
 import { Container, Header, DragOver } from '@pages/Channel/styles';
 import { IChannel, IChat, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
@@ -19,7 +19,11 @@ const Channel = () => {
   const { data: myData } = useSWR('/api/users', fetcher);
   const [chat, onChangeChat, setChat] = useInput('');
   const { data: channelData } = useSWR<IChannel>(`/api/workspaces/${workspace}/channels/${channel}`, fetcher);
-  const { data: chatData, mutate: mutateChat, setSize } = useSWRInfinite<IChat[]>(
+  const {
+    data: chatData,
+    mutate: mutateChat,
+    setSize,
+  } = useSWRInfinite<IChat[]>(
     (index) => `/api/workspaces/${workspace}/channels/${channel}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
@@ -27,7 +31,8 @@ const Channel = () => {
     myData ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
     fetcher,
   );
-  // const [socket] = useSocket(workspace);
+
+  const [socket] = useSocket(workspace);
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const scrollbarRef = useRef<Scrollbars>(null);
@@ -69,40 +74,42 @@ const Channel = () => {
           .catch(console.error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [chat, chatData, myData, channelData, workspace, channel],
   );
 
-//   const onMessage = useCallback(
-//     (data: IChat) => {
-//       // id는 상대방 아이디
-//       if (data.Channel.name === channel && (data.content.startsWith('uploads\\') || data.UserId !== myData?.id)) {
-//         mutateChat((chatData) => {
-//           chatData?.[0].unshift(data);
-//           return chatData;
-//         }, false).then(() => {
-//           if (scrollbarRef.current) {
-//             if (
-//               scrollbarRef.current.getScrollHeight() <
-//               scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
-//             ) {
-//               console.log('scrollToBottom!', scrollbarRef.current?.getValues());
-//               setTimeout(() => {
-//                 scrollbarRef.current?.scrollToBottom();
-//               }, 50);
-//             }
-//           }
-//         });
-//       }
-//     },
-//     [channel, myData],
-//   );
+  const onMessage = useCallback(
+    (data: IChat) => {
+      // id는 상대방 아이디
+      if (data.Channel.name === channel && (data.content.startsWith('uploads\\') || data.UserId !== myData?.id)) {
+        mutateChat((chatData) => {
+          chatData?.[0].unshift(data);
+          return chatData;
+        }, false).then(() => {
+          if (scrollbarRef.current) {
+            if (
+              scrollbarRef.current.getScrollHeight() <
+              scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+            ) {
+              console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+              setTimeout(() => {
+                scrollbarRef.current?.scrollToBottom();
+              }, 50);
+            }
+          }
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [channel, myData],
+  );
 
-//   useEffect(() => {
-//     socket?.on('message', onMessage);
-//     return () => {
-//       socket?.off('message', onMessage);
-//     };
-//   }, [socket, onMessage]);
+  useEffect(() => {
+    socket?.on('message', onMessage);
+    return () => {
+      socket?.off('message', onMessage);
+    };
+  }, [socket, onMessage]);
 
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {
@@ -123,18 +130,18 @@ const Channel = () => {
     setShowInviteChannelModal(false);
   }, []);
 
-  const onChangeFile = useCallback((e: any) => {
-    const formData = new FormData();
-    if (e.target.files) {
-      // Use DataTransferItemList interface to access the file(s)
-      for (let i = 0; i < e.target.files.length; i++) {
-        const file = e.target.files[i].getAsFile();
-        console.log('... file[' + i + '].name = ' + file.name);
-        formData.append('image', file);
-      }
-    }
-    axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
-  }, []);
+  // const onChangeFile = useCallback((e: any) => {
+  //   const formData = new FormData();
+  //   if (e.target.files) {
+  //     // Use DataTransferItemList interface to access the file(s)
+  //     for (let i = 0; i < e.target.files.length; i++) {
+  //       const file = e.target.files[i].getAsFile();
+  //       console.log('... file[' + i + '].name = ' + file.name);
+  //       formData.append('image', file);
+  //     }
+  //   }
+  //   axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
+  // }, []);
 
   const onDrop = useCallback(
     (e: any) => {

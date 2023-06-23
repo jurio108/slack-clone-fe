@@ -1,23 +1,21 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import useSWR from 'swr';
-// import useSWRImmutable from 'swr/immutable';
 
 import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from './styles';
 
-import useInput from "@hooks/useInput";
+import useInput from '@hooks/useInput';
 import swrUsers from '@components/Swr/users';
 
 const SignUp = () => {
   // const { data, error } = useSWRImmutable('/api/users', fetcher);
-  const { data, mutate } = swrUsers();
+  const { data } = swrUsers();
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, , setPassword] = useInput('');
   const [passwordCheck, , setPasswordCheck] = useInput('');
-  
+
   const [mismatchError, setMismatchError] = useState(false);
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
@@ -27,6 +25,7 @@ const SignUp = () => {
       setPassword(e.target.value);
       setMismatchError(e.target.value !== passwordCheck);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [passwordCheck],
   );
 
@@ -35,6 +34,7 @@ const SignUp = () => {
       setPasswordCheck(e.target.value);
       setMismatchError(e.target.value !== password);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [password],
   );
 
@@ -45,7 +45,7 @@ const SignUp = () => {
         console.log('서버로 회원가입하기');
         setSignUpError('');
         setSignUpSuccess(false);
-        
+
         axios
           .post('/api/users', {
             email,
@@ -64,6 +64,7 @@ const SignUp = () => {
           .finally(() => {});
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [email, nickname, password, passwordCheck, mismatchError],
   );
 
@@ -72,8 +73,7 @@ const SignUp = () => {
   }
 
   if (data) {
-    // return <Navigate replace to="/workspace/sleact/channel/일반" />;
-    return <Navigate replace to="/workspace/channel/" />;
+    return <Navigate replace to="/workspace/sleact/channel/일반" />;
   }
 
   return (
@@ -121,8 +121,8 @@ const SignUp = () => {
         <Link to="/login">로그인 하러가기</Link>
       </LinkContainer>
     </div>
-  )
-}
+  );
+};
 
 export default SignUp;
 

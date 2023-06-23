@@ -43,6 +43,7 @@ const InviteChannelModal: FC<Props> = ({ show, onCloseModal, setShowInviteChanne
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [newMember],
   );
 
